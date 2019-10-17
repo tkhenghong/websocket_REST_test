@@ -15,7 +15,19 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
+        // This is the prefix before the frontend send a message.
+        // In frontend: /app/chat.addUser
+        // When a user joined a conversation:
+        // stompClient.send("/app/chat.addUser",
+        //        {},
+        //        JSON.stringify({sender: username, type: 'JOIN'})
+        //    )
+        // When send message:
+        // stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
         registry.setApplicationDestinationPrefixes("/app");
+
+        // This is the prefix for the frontend WebSocket client to connect backend Websocket server.
+        // In frontend: stompClient.subscribe('/topic/public', ....);
         registry.enableSimpleBroker("/topic");
     }
 }
