@@ -23,6 +23,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	// Added Spring Security Messaging dependency to fix a failed retrospect Spring Boot Security AbstractSecurityWebSocketMessageBrokerConfigurer class problem. Link: https://stackoverflow.com/questions/50045339
+	implementation 'org.springframework.security:spring-security-messaging'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.kafka:spring-kafka-test'
