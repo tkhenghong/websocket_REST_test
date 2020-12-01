@@ -19,8 +19,10 @@ dependencies {
 	implementation "org.webjars:stomp-websocket:2.3.3"
 	implementation 'org.springframework.kafka:spring-kafka'
 	implementation 'org.apache.kafka:kafka-streams'
-	implementation 'org.springframework:spring-websocket'
+//	implementation 'org.springframework:spring-websocket'
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.kafka:spring-kafka-test'
