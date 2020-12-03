@@ -1,0 +1,23 @@
+{
+  "properties": [
+    {
+      "name": "websocket.broker.endpoint.list",
+      "type": "java.lang.String",
+      "description": "A list for the WebSocket brokers for allowing frontend clients to connect."
+    },
+    {
+      "name": "websocket.broker.allowed.origin.list",
+      "type": "java.lang.String",
+      "description": "A list for allowing which origin to be able to connect to the WebSocket broker."
+    },
+    {
+      "name": "websocket.stomp.broker.list",
+      "type": "java.lang.String",
+      "description": "A list of prefixes for the frontend client to follow to subscribe to STOMP topics configured in the server."
+    },
+    {
+      "name": "websocket.stomp.destination.prefix.list",
+      "type": "java.lang.String",
+      "description": "A list of prefixes for the frontend client to follow to send to STOMP topics @MessageMapping(...) configured in the server."
+    }
+  ] }

@@ -41,6 +41,25 @@ public class WebsocketChannelInterceptor implements ChannelInterceptor {
         return message;
     }
 
+    /**
+     * A intercept method to determine that message from frontend client should be retrieved or not.
+     *
+     * @param channel: MessageChannel object that contain the channel information of the frontend client.
+     * @return boolean value.
+     * If true, the server will receive the message from the frontend client.
+     * If false, the server will reject the message from the frontend client.
+     */
+    @Override
+    public boolean preReceive(MessageChannel channel) {
+        logger.info("WebsocketChannelInterceptor.java preReceive()");
+        return true;
+    }
+
+    /**
+     * Read the content of the StompHeaderAccessor object directly by convert it into JSON string.
+     *
+     * @param stompHeaderAccessor: StompHeaderAccessor object, which is the header of the message, if the client is using STOMP command.
+     */
     void readStompHeaderAccessor(StompHeaderAccessor stompHeaderAccessor) {
         try {
             String stompHeaderAccessorString = objectMapper.writeValueAsString(stompHeaderAccessor);
@@ -50,6 +69,11 @@ public class WebsocketChannelInterceptor implements ChannelInterceptor {
         }
     }
 
+    /**
+     * Self made method to check the STOMP command of the message(Message<?> object).
+     *
+     * @param stompHeaderAccessor: StompHeaderAccessor object, which is the header of the message, if the client is using STOMP command.
+     */
     void identifySTOMPCommand(StompHeaderAccessor stompHeaderAccessor) {
         if (!ObjectUtils.isEmpty(stompHeaderAccessor)) {
             if (!ObjectUtils.isEmpty(stompHeaderAccessor.getCommand())) {
@@ -109,6 +133,11 @@ public class WebsocketChannelInterceptor implements ChannelInterceptor {
         }
     }
 
+    /**
+     * Read the Message<?> object directly by convert it into JSON string.
+     *
+     * @param message Message<?> object which mainly has a header and a payload.
+     */
     void readMessage(Message<?> message) {
         try {
             String messageString = objectMapper.writeValueAsString(message);
@@ -118,6 +147,11 @@ public class WebsocketChannelInterceptor implements ChannelInterceptor {
         }
     }
 
+    /**
+     * Read the MessageChannel object directly by convert it into JSON string.
+     *
+     * @param messageChannel: MessageChannel object which contains information about the channel that the message is sending to.
+     */
     void readMessageChannel(MessageChannel messageChannel) {
         try {
             String messageChannelString = objectMapper.writeValueAsString(messageChannel);

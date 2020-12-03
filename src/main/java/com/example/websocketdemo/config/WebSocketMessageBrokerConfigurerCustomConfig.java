@@ -1,15 +1,30 @@
 package com.example.websocketdemo.config;
 
 import com.example.websocketdemo.interceptor.WebSocketHttpHandshakeInterceptor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
+import java.util.List;
+
 @Configuration
 @EnableWebSocketMessageBroker
-public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+public class WebSocketMessageBrokerConfigurerCustomConfig implements WebSocketMessageBrokerConfigurer {
+
+    @Value("#{'${websocket.broker.endpoint.list}'.split(',')}")
+    private List<String> webSocketBrokerEndpointList;
+
+    @Value("#{'${websocket.broker.allowed.origin.list}'.split(',')}")
+    private List<String> webSocketBrokerAllowedOriginList;
+
+    @Value("#{'${websocket.stomp.broker.list}'.split(',')}")
+    private List<String> webSocketStompBrokerList;
+
+    @Value("#{'${websocket.stomp.destination.prefix.list}'.split(',')}")
+    private List<String> webSocketStompDestinationPrefixList;
 
     /**
      *
@@ -39,6 +54,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
      * When backend return status code 101, the WebSocket has been successfully established.
      *
      */
+
     /**
      * FRONT END
      * Using web browsers connect WebSocket using SockJS as fallback option, and using STOMP.js to step over WebSocket that SockJS has created.
@@ -105,9 +121,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
          * For example: ws:/localhost:8080/greeting becomes ws:/localhost:8080/greeting/websocket
          * Solution with explanation reference: https://stackoverflow.com/questions/51845452
          */
-        registry.addEndpoint("/ws", "/greeting")
+        // List<String> to String[]. Reference: https://stackoverflow.com/questions/2552420
+        registry.addEndpoint(webSocketBrokerEndpointList.toArray(new String[0]))
                 .addInterceptors(new WebSocketHttpHandshakeInterceptor())
-                .setAllowedOrigins("*")
+                .setAllowedOrigins(webSocketBrokerAllowedOriginList.toArray(new String[0]))
                 .withSockJS();
     }
 
@@ -117,13 +134,18 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
          * registry.enableSimpleBroker(...) is to tell here that everything your
          * frontend client and backend @MessageMapping(...) are set up using
          * the following destination prefixes. Such as your STOMP over SockJS client,
-         * when they are listening to
-         * (stompClient is the object after )
-         * stompClient.subscribe('/topic/public', onMessageReceived);
+         * When they are listening to any STOMP topics configured in the server, like:
+         * (stompClient is the object after FRONTEND Step 1 and Step 2, refer to top explanations)
+         *                  stompClient.subscribe('/topic/public', onMessageReceived);
          *
+         * Backend has to configure like the below Line 1 in order to differentiate the STOMP commands that they are listening.
          *
+         * When the frontend client, send a topic through the stompClient object, like:
+         *                  stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+         *
+         * The backend has to configure like the below Line 2 in order to differentiate the STOMP commands for sending messages.
          */
-        registry.enableSimpleBroker("/topic", "/queue");
-        registry.setApplicationDestinationPrefixes("/app");
+        registry.enableSimpleBroker(webSocketStompBrokerList.toArray(new String[0])); // Line 1
+        registry.setApplicationDestinationPrefixes(webSocketStompDestinationPrefixList.toArray(new String[0])); // Line 2
     }
 }

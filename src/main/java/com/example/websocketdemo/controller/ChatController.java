@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 
 
 // Tutorial link: https://www.callicoder.com/spring-boot-websocket-chat-example/
+// NOTE: @SendTo("TOPIC_NAME") will send the returning object to TOPIC_NAME in STOMP. Any frontend clients that subscribed to the TOPIC_NAME will get the JSON String of the message.
 @Controller
 public class ChatController {
 

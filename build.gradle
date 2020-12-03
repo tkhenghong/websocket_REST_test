@@ -1,7 +1,7 @@
 plugins {
-	id 'org.springframework.boot' version '2.1.8.RELEASE'
-	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
-	id 'java'
+    id 'org.springframework.boot' version '2.1.8.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'java'
 }
 
 group = 'com.example'
@@ -9,23 +9,27 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation "org.webjars:sockjs-client:1.0.2"
-	implementation "org.webjars:stomp-websocket:2.3.3"
-	implementation 'org.springframework.kafka:spring-kafka'
-	implementation 'org.apache.kafka:kafka-streams'
-//	implementation 'org.springframework:spring-websocket'
-	implementation 'org.springframework.boot:spring-boot-starter-websocket'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	// Added Spring Security Messaging dependency to fix a failed retrospect Spring Boot Security AbstractSecurityWebSocketMessageBrokerConfigurer class problem. Link: https://stackoverflow.com/questions/50045339
-	implementation 'org.springframework.security:spring-security-messaging'
+compileJava.dependsOn(processResources)
 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.kafka:spring-kafka-test'
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation "org.webjars:sockjs-client:1.0.2"
+    implementation "org.webjars:stomp-websocket:2.3.3"
+    implementation 'org.springframework.kafka:spring-kafka'
+    implementation 'org.apache.kafka:kafka-streams'
+//	implementation 'org.springframework:spring-websocket'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    // Added Spring Security Messaging dependency to fix a failed retrospect Spring Boot Security AbstractSecurityWebSocketMessageBrokerConfigurer class problem. Link: https://stackoverflow.com/questions/50045339
+    implementation 'org.springframework.security:spring-security-messaging'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
+
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 }

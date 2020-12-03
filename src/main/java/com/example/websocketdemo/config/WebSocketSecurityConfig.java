@@ -14,11 +14,11 @@ public class WebSocketSecurityConfig extends AbstractSecurityWebSocketMessageBro
     protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
         // This is within Spring Boot Security for WebSocket.
         messages
-                .nullDestMatcher().authenticated()
+                .nullDestMatcher().permitAll()
                 .simpTypeMatchers(CONNECT).permitAll()
-                .simpTypeMatchers(SUBSCRIBE, MESSAGE, UNSUBSCRIBE, DISCONNECT).authenticated()
-                .simpDestMatchers("/secured/**").authenticated()
-                .anyMessage().denyAll();
+                .simpTypeMatchers(SUBSCRIBE, MESSAGE, UNSUBSCRIBE, DISCONNECT).permitAll()
+                .simpDestMatchers("/secured/**").permitAll()
+                .anyMessage().permitAll();
     }
 
     @Override
