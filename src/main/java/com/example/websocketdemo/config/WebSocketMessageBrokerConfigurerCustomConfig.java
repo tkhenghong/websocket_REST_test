@@ -10,6 +10,11 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 import java.util.List;
 
+/**
+ * A class for configuring the WebSocket broker, with complete control.
+ * TODO: Connect WebSocket with JWT Authentication reference link:
+ * https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#websocket-stomp-authentication-token-based
+ */
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketMessageBrokerConfigurerCustomConfig implements WebSocketMessageBrokerConfigurer {

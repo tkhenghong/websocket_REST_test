@@ -24,13 +24,17 @@ public class WebSocketConfigurerCustomConfig implements WebSocketConfigurer {
 
     private final List<String> webSocketBrokerEndpointList;
 
-    public WebSocketConfigurerCustomConfig(@Value("#{'${websocket.broker.endpoint.list}'.split(',')}") List<String> webSocketBrokerEndpointList) {
+    private final List<String> webSocketBrokerAllowedOriginList;
+
+    public WebSocketConfigurerCustomConfig(@Value("#{'${websocket.broker.endpoint.list}'.split(',')}") List<String> webSocketBrokerEndpointList,
+                                           @Value("#{'${websocket.broker.allowed.origin.list}'.split(',')}") List<String> webSocketBrokerAllowedOriginList) {
         this.webSocketBrokerEndpointList = webSocketBrokerEndpointList;
+        this.webSocketBrokerAllowedOriginList = webSocketBrokerAllowedOriginList;
     }
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(myHandler(), webSocketBrokerEndpointList.toArray(new String[0])).withSockJS();
+        registry.addHandler(myHandler(), webSocketBrokerEndpointList.toArray(new String[0])).setAllowedOrigins(webSocketBrokerAllowedOriginList.toArray(new String[0])).withSockJS();
     }
 
     @Bean
